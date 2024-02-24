@@ -1,0 +1,25 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace DomainDrivenDesign.Domain.Shared;
+
+public sealed record Currency
+{
+    internal static readonly Currency Usd = new("USD");
+    public static readonly Currency TRY = new("TRY");
+    public static readonly Currency None = new("");
+
+    public string Code { get; init; }
+    private Currency(string code)
+    {
+        Code = code;
+    }
+    public static Currency FromCode(string code)
+    {
+        return All.FirstOrDefault(p => p.Code == code) ?? throw new ArgumentException("Geçerli bir para birimi giriniz.");
+    }
+    public static readonly IReadOnlyCollection<Currency> All= new[] {Usd, TRY};
+}
